@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <appengine.app.version>1-war</appengine.app.version>
+        <appengine.app.version>0-war</appengine.app.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <appengine.target.version>1.9.5</appengine.target.version>
     </properties>
