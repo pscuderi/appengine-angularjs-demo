@@ -40,8 +40,22 @@ app.controller('HomeController', function($scope, AuthService) {
 	AuthService.refresh();
 	
 	$scope.user = AuthService.getUser();
+	
+	if ($scope.user != null) {
+		$scope.name = $scope.user.email;
+	}
+	else {
+		$scope.name = "Guest";
+	}
+	
 	$scope.$watch(function () { return AuthService.getUser(); }, function (newVal, oldVal) {
 		$scope.user = AuthService.getUser();
+		if ($scope.user != null) {
+			$scope.name = $scope.user.email;
+		}
+		else {
+			$scope.name = "Guest";
+		}
 	});
 	
 	$scope.isAuthenticated = AuthService.isAuthenticated();
