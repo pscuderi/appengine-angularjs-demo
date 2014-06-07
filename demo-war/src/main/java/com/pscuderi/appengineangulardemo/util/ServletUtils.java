@@ -3,6 +3,12 @@ package com.pscuderi.appengineangulardemo.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
 public final class ServletUtils {
@@ -32,5 +38,15 @@ public final class ServletUtils {
 	        reader.close();
 	    }
 	    return fromJson(sb.toString(), clazz);
+	}
+	
+	public static User getUserAndRedirectIfNotAuthenticated(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	    UserService userService = UserServiceFactory.getUserService();
+	    User user = userService.getCurrentUser();
+	    if (user == null) {
+	    	// should we redirect to "/login" instead?
+	    	resp.sendRedirect(userService.createLoginURL(req.getRequestURI()));
+	    }
+	    return user;
 	}
 }

@@ -8,21 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.pscuderi.appengineangulardemo.util.ServletUtils;
 
 @SuppressWarnings("serial")
-public class GetUserServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/html");
-		
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-		
-		if (user != null) {
-		    resp.getWriter().println(user.toString());
-		}
-		else {
-			resp.getWriter().println(ServletUtils.toJson(null));
-		}
+	    UserService userService = UserServiceFactory.getUserService();
+	    User user = userService.getCurrentUser();
+	    if (user == null) {
+	    	String path = req.getParameter("path");
+	    	resp.sendRedirect(userService.createLoginURL(path != null ? path : "/"));
+	    }
+	    else {
+	    	System.out.println("ERROR: user already logged in...why login again?");
+	    }
 	}
 }

@@ -8,21 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.pscuderi.appengineangulardemo.util.ServletUtils;
 
 @SuppressWarnings("serial")
-public class GetUserServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/html");
-		
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-		
-		if (user != null) {
-		    resp.getWriter().println(user.toString());
-		}
-		else {
-			resp.getWriter().println(ServletUtils.toJson(null));
-		}
+	    UserService userService = UserServiceFactory.getUserService();
+	    User user = userService.getCurrentUser();
+	    if (user != null) {
+	    	// return the user to home
+	    	// in the future, might want to get the path and redirect accordingly
+	    	resp.sendRedirect(userService.createLogoutURL("/"));
+	    }
+	    else {
+	    	System.out.println("ERROR: user isn't logged in...why logout?");
+	    }
 	}
 }

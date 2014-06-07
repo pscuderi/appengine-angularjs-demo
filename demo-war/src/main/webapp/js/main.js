@@ -6,63 +6,52 @@ var app = angular.module('appEngineAngularDemo', [
 app.config(function($routeProvider, $locationProvider) {
 	$routeProvider
 		.when('/', {
-			templateUrl: "templates/home.html",
-			controller: 'HomeController',
-			requireLogin: false
+			templateUrl: "/GetUser",
+			controller: 'HomeController'
+//			requireLogin: false
 		})
-		.when('/chat', {
-			templateUrl: "templates/chat.html",
-			controller: 'ChatController',
-			requireLogin: true
-		})
-		.when('/traffic', {
-			templateUrl: "templates/traffic.html",
-			controller: 'TrafficController',
-			requireLogin: false
-		})
-		.when('/login', {
-			templateUrl: "servlets/GetUser",
-			controller: 'LoginController',
-			requireLogin: false
-		})
-		.when('/register', {
-			templateUrl: "templates/register.html",
-			controller: 'RegisterController',
-			requireLogin: false
+		.when('/guestbook', {
+			templateUrl: "templates/guestbook.html",
+			controller: 'GuestbookController'
+//			requireLogin: true
 		})
 		.otherwise({ redirectTo: '/'});
 });
 
-app.run(function($rootScope, AuthService, $location){
-    $rootScope.$on("$routeChangeStart", function(event, next, current) {
-        // Every time the route in our app changes check auth status
-        if (next.requireLogin && !AuthService.getUserAuthenticated()) {
-            // if you're logged out send to login page.
-            $location.path('/login');
-            event.preventDefault();
-        }
-    });
-});
+//app.run(function($rootScope, AuthService, $location){
+//    $rootScope.$on("$routeChangeStart", function(event, next, current) {
+//        // Every time the route in our app changes check auth status
+//        if (next.requireLogin && !AuthService.getUserAuthenticated()) {
+//            // if you're logged out send to login page.
+//            $location.path('/login');
+//            event.preventDefault();
+//        }
+//    });
+//});
 
 app.controller('HeaderController', function($scope, $location, AuthService) {
 	$scope.isActive = function(viewLocation) { 
 	    return viewLocation === $location.path();
 	};
-	
 	$scope.isAuthenticated = function() {
 		return AuthService.getUserAuthenticated();
+	};
+	$scope.loginPath = function() {
+		return "/Login?path=" + $location.path();
+	};
+	$scope.logoutPath = function() {
+		// TODO: if user is at a page that requires authorization, return them to home
+		return "/Logout?path=" + $location.path();
 	};
 });
 
 app.controller('HomeController', function($scope) {
+	// call GetUser, and show their name
+	
 	
 });
 
-app.controller('ChatController', function($scope) {
-	
-});
-
-app.controller('TrafficController', function($scope) {
+app.controller('GuestbookController', function($scope) {
 	
 });
 
@@ -90,7 +79,7 @@ app.controller('LoginController', function($scope, $http) {
 //	};
 });
 
-app.controller('RegisterController', function($scope, AuthService) {
+app.controller('LogoutController', function($scope, AuthService) {
 	$scope.register = function() {
 		// toggle for now
 		AuthService.setUserAuthenticated(!AuthService.getUserAuthenticated());
