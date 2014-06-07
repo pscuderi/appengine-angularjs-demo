@@ -13,14 +13,17 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class LogoutServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    UserService userService = UserServiceFactory.getUserService();
-	    User user = userService.getCurrentUser();
-	    if (user != null) {
-	    	// return the user to home
-	    	// in the future, might want to get the path and redirect accordingly
-	    	resp.sendRedirect(userService.createLogoutURL("/"));
-	    }
-	    else {
-	    	System.out.println("ERROR: user isn't logged in...why logout?");
-	    }
+	    
+	    resp.sendRedirect(userService.createLogoutURL("/"));
+	    
+//	    User user = userService.getCurrentUser();
+//	    if (user != null) {
+//	    	// return the user to home
+//	    	// in the future, might want to get the path and redirect accordingly
+//	    	resp.sendRedirect(userService.createLogoutURL("/"));
+//	    }
+//	    else {
+//	    	System.out.println("ERROR: user isn't logged in...why logout?");
+//	    }
 	}
 }

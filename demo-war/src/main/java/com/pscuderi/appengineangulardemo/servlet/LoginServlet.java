@@ -13,13 +13,17 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class LoginServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    UserService userService = UserServiceFactory.getUserService();
-	    User user = userService.getCurrentUser();
-	    if (user == null) {
-	    	String path = req.getParameter("path");
-	    	resp.sendRedirect(userService.createLoginURL(path != null ? path : "/"));
-	    }
-	    else {
-	    	System.out.println("ERROR: user already logged in...why login again?");
-	    }
+	    
+    	String path = req.getParameter("path");
+    	resp.sendRedirect(userService.createLoginURL(path != null ? path : "/"));
+	    
+//	    User user = userService.getCurrentUser();
+//	    if (user == null) {
+//	    	String path = req.getParameter("path");
+//	    	resp.sendRedirect(userService.createLoginURL(path != null ? path : "/"));
+//	    }
+//	    else {
+//	    	System.out.println("ERROR: user already logged in...why login again?");
+//	    }
 	}
 }

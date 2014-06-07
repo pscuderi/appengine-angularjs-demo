@@ -13,16 +13,18 @@ import com.pscuderi.appengineangulardemo.util.ServletUtils;
 @SuppressWarnings("serial")
 public class GetUserServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/html");
+		resp.setContentType("text/json");
 		
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		
-		if (user != null) {
-		    resp.getWriter().println(user.toString());
-		}
-		else {
-			resp.getWriter().println(ServletUtils.toJson(null));
-		}
+		resp.getWriter().println(ServletUtils.toJson(user));
+		
+//		if (user != null) {
+//		    resp.getWriter().println(ServletUtils.toJson(user));
+//		}
+//		else {
+//			resp.getWriter().println(ServletUtils.toJson(null));
+//		}
 	}
 }
