@@ -16,26 +16,18 @@ app.config(function($routeProvider, $locationProvider) {
 		.otherwise({ redirectTo: '/'});
 });
 
-//app.run(function($rootScope, AuthService, $location){
-//    $rootScope.$on("$routeChangeStart", function(event, next, current) {
-//        // Every time the route in our app changes check auth status
-//        if (next.requireLogin && !AuthService.getUserAuthenticated()) {
-//            // if you're logged out send to login page.
-//            $location.path('/login');
-//            event.preventDefault();
-//        }
-//    });
-//});
-
 app.controller('HeaderController', function($scope, $location, AuthService) {
 	AuthService.refresh();
 	
 	$scope.isActive = function(viewLocation) { 
 	    return viewLocation === $location.path();
 	};
-	$scope.isAuthenticated = function() {
-		return AuthService.isAuthenticated();
-	};
+	
+	$scope.isAuthenticated = AuthService.isAuthenticated();
+	$scope.$watch(function () { return AuthService.isAuthenticated(); }, function (newVal, oldVal) {
+		$scope.isAuthenticated = AuthService.isAuthenticated();
+	});
+	
 	$scope.loginPath = function() {
 		return "/Login?path=" + $location.path();
 	};
@@ -48,7 +40,14 @@ app.controller('HomeController', function($scope, AuthService) {
 	AuthService.refresh();
 	
 	$scope.user = AuthService.getUser();
+	$scope.$watch(function () { return AuthService.getUser(); }, function (newVal, oldVal) {
+		$scope.user = AuthService.getUser();
+	});
+	
 	$scope.isAuthenticated = AuthService.isAuthenticated();
+	$scope.$watch(function () { return AuthService.isAuthenticated(); }, function (newVal, oldVal) {
+		$scope.isAuthenticated = AuthService.isAuthenticated();
+	});
 });
 
 app.controller('GuestbookController', function($scope) {
