@@ -44,7 +44,6 @@ public final class ServletUtils {
 	    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
 	    if (user == null) {
-	    	// should we redirect to "/login" instead?
 	    	resp.sendRedirect(userService.createLoginURL(req.getRequestURI()));
 	    }
 	    return user;
