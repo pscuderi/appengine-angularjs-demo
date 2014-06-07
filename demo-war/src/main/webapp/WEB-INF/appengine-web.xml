@@ -3,6 +3,7 @@
     <application>demo</application>
     <version>${appengine.app.version}</version>
     <threadsafe>true</threadsafe>
+    <sessions-enabled>true</sessions-enabled>
     
     <static-files>
 	  <include path="/js/*.*" />
