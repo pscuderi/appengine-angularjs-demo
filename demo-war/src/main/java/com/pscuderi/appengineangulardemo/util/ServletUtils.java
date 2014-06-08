@@ -10,14 +10,22 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.pscuderi.appengineangulardemo.model.AppUser;
+import com.pscuderi.appengineangulardemo.service.AppUserService;
 
 public final class ServletUtils {
 	private ServletUtils() { }
 
 	private static Gson gson = new Gson();
+	private static Gson customGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
 	public static String toJson(Object o) {
 		return gson.toJson(o);
+	}
+	
+	public static String toCustomJson(Object o) {
+		return customGson.toJson(o);
 	}
 
 	public static <T> T fromJson(String json, Class<T> clazz) {
@@ -40,12 +48,15 @@ public final class ServletUtils {
 	    return fromJson(sb.toString(), clazz);
 	}
 	
-	public static User getUserAndRedirectIfNotAuthenticated(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	public static AppUser getUserAndRedirectIfNotAuthenticated(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
+	    
 	    if (user == null) {
 	    	resp.sendRedirect(userService.createLoginURL(req.getRequestURI()));
+	    	return null;
 	    }
-	    return user;
+	    
+	    return AppUserService.getAppUser(user);
 	}
 }

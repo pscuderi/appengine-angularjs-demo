@@ -4,7 +4,7 @@ import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
-@Cache(expirationSeconds=600)
+@Cache
 @Entity
 public class AppUser {
 	@Id

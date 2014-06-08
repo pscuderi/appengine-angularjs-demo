@@ -12,7 +12,7 @@
 		  <div class="navbar-collapse" ng-controller="HeaderController">
 		    <ul class="nav navbar-nav navbar-left">
 				<li ng-class="{active: isActive('/')}"><a href="#">Home</a></li>
-				<li ng-show="isAuthenticated" ng-class="{active: isActive('/guestbook')}"><a href="#/guestbook">Guestbook</a></li>
+				<li ng-show="isAuthenticated" ng-class="{active: isActive('/todolist')}"><a href="#/todolist">ToDo List</a></li>
 		    </ul>
 		    <ul class="nav navbar-nav navbar-right">
 		    	<li ng-show="isAuthenticated"><a ng-href="{{logoutPath()}}">Logout</a></li>

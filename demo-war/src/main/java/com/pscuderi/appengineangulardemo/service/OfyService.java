@@ -4,12 +4,12 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.pscuderi.appengineangulardemo.model.AppUser;
-import com.pscuderi.appengineangulardemo.model.GuestbookEntry;
+import com.pscuderi.appengineangulardemo.model.ToDoItem;
 
 public final class OfyService {
     static {
     	factory().register(AppUser.class);
-    	factory().register(GuestbookEntry.class);
+    	factory().register(ToDoItem.class);
     }
     
     private OfyService() {}

@@ -9,9 +9,9 @@ app.config(function($routeProvider, $locationProvider) {
 			templateUrl: "templates/home.html",
 			controller: 'HomeController'
 		})
-		.when('/guestbook', {
-			templateUrl: "templates/guestbook.html",
-			controller: 'GuestbookController'
+		.when('/todolist', {
+			templateUrl: "templates/todolist.html",
+			controller: 'ToDoListController'
 		})
 		.otherwise({ redirectTo: '/'});
 });
@@ -36,17 +36,14 @@ app.controller('HeaderController', function($scope, $location, AuthService) {
 	};
 });
 
-app.controller('HomeController', function($scope, AuthService) {
+app.controller('HomeController', function($scope, $location, AuthService) {
 	AuthService.refresh();
 	
 	$scope.user = AuthService.getUser();
 	
-	if ($scope.user != null) {
-		$scope.name = $scope.user.email;
-	}
-	else {
-		$scope.name = "Guest";
-	}
+	$scope.loginPath = function() {
+		return "/Login?path=" + $location.path();
+	};
 	
 	$scope.$watch(function () { return AuthService.getUser(); }, function (newVal, oldVal) {
 		$scope.user = AuthService.getUser();
@@ -64,6 +61,6 @@ app.controller('HomeController', function($scope, AuthService) {
 	});
 });
 
-app.controller('GuestbookController', function($scope) {
+app.controller('ToDoListController', function($scope) {
 	
 });
