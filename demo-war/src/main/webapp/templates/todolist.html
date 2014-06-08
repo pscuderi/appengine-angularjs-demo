@@ -1,4 +1,4 @@
-<div class="container">
+<div>
 	<div class="page-header text-center">
 		<h1>To Do List
 			<span class="label label-default" ng-class="warningLevel()" ng-hide="incompleteCount() == 0">{{incompleteCount()}}</span>
@@ -22,7 +22,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in items">
+			<tr ng-repeat="item in items | filter:showItem | orderBy:'action'">
 				<td>{{item.action}}</td>
 				<td><input type="checkbox" ng-model="item.done" ng-change="put(item)"/></td>
 				<td>{{item.done}}</td>

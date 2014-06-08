@@ -1,8 +1,10 @@
 <div class="home">
-	<h1>Home</h1>
-	<p ng-show="isAuthenticated" class="lead">Welcome, {{user.email}}!</p>
+	<p ng-show="isAuthenticated" class="lead">Welcome, {{user.email}}!
+		<br/><br/>
+		Please see your <a ng-href="/#/todolist">ToDo List</a>.
+	</p>
 	<p ng-hide="isAuthenticated" class="lead">Welcome!
-		<br/>
-		Please <a ng-hide="isAuthenticated" ng-href="{{loginPath()}}">Login</a>
+		<br/><br/>
+		Please <a ng-href="{{loginPath()}}">Login</a>.
 	</p>
 </div>

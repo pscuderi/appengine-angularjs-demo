@@ -64,6 +64,7 @@ app.controller('HomeController', function($scope, $location, AuthService) {
 app.controller('ToDoListController', function($scope, $http) {
 	
 	$scope.items = {};
+	$scope.showComplete = false;
 	
 	$http.get("/ToDoList")
 		.success(function (data, status, headers, config) {
@@ -78,7 +79,12 @@ app.controller('ToDoListController', function($scope, $http) {
 			.error(function(error) {
 				console.log(error);
 			});
-		
+	};
+	
+	$scope.showItem = function(item) {
+		return $scope.showComplete == true || item.done == false;
+	};
+	
 	$scope.incompleteCount = function() {
 		var count = 0;
 		angular.forEach($scope.items, function(item) {
@@ -87,7 +93,7 @@ app.controller('ToDoListController', function($scope, $http) {
 		});
 		return count;
 	};
-
+	
 	$scope.warningLevel = function() {
 		return $scope.incompleteCount() < 3 ? "label-success" : "label-warning";
 	};
@@ -107,7 +113,4 @@ app.controller('ToDoListController', function($scope, $http) {
 			$scope.put(item);
 		}
 	};
-};
-	
-	
 });

@@ -24,15 +24,15 @@ public final class ToDoService {
     	// data security
     	if (newItem.getId() != null) {
     		ToDoItem oldItem = getById(newItem.getId());
-    		if (!oldItem.getOwnerId().equals(newItem.getOwnerId())) {
+    		if (!oldItem.getOwnerId().equals(user.getId())) {
     			log.log(
     					Level.WARNING,
-    					"user " + user.getId() + " doesn't own item " + newItem.getId());
+    					"appUserId " + user.getId() + " doesn't own itemId " + newItem.getId());
     			return;
     		}
     	}
     	
-    	// ownerId isn't serialized, so we might need to set it
+    	// ownerId isn't serialized, so we probably need to set it
     	if (newItem.getOwnerId() == null) {
     		newItem.setOwnerId(user.getId());
     	}
