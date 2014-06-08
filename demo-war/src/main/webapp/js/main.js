@@ -61,6 +61,53 @@ app.controller('HomeController', function($scope, $location, AuthService) {
 	});
 });
 
-app.controller('ToDoListController', function($scope) {
+app.controller('ToDoListController', function($scope, $http) {
+	
+	$scope.items = {};
+	
+	$http.get("/ToDoList")
+		.success(function (data, status, headers, config) {
+			$scope.items = eval(data);
+	    })
+	    .error(function(error) {
+		 	console.log(error);
+		});
+	
+	$scope.put = function(item) {
+		$http.put("/ToDoList", item)
+			.error(function(error) {
+				console.log(error);
+			});
+		
+	$scope.incompleteCount = function() {
+		var count = 0;
+		angular.forEach($scope.items, function(item) {
+			if (!item.done)
+				++count;
+		});
+		return count;
+	};
+
+	$scope.warningLevel = function() {
+		return $scope.incompleteCount() < 3 ? "label-success" : "label-warning";
+	};
+	
+	$scope.addNewItem = function(actionText) {
+		var found = false;
+		angular.forEach($scope.items, function(item) {
+			if (item.action.toUpperCase() === actionText.toUpperCase())
+				found = true;
+		});
+		if (found) {
+			alert(actionText + " already exists!");
+		}
+		else {
+			var item = {action: actionText, done: false};
+			$scope.items.push(item);
+			$scope.put(item);
+		}
+	};
+};
+	
 	
 });
