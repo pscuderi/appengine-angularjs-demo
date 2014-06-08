@@ -29,12 +29,12 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>Guestbook</servlet-name>
-		<servlet-class>com.pscuderi.appengineangulardemo.servlet.GuestbookServlet</servlet-class>
+		<servlet-name>ToDoList</servlet-name>
+		<servlet-class>com.pscuderi.appengineangulardemo.servlet.ToDoListServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Guestbook</servlet-name>
-		<url-pattern>/Guestbook</url-pattern>
+		<servlet-name>ToDoList</servlet-name>
+		<url-pattern>/ToDoList</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

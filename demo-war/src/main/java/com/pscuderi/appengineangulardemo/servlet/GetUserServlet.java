@@ -11,7 +11,7 @@ import com.pscuderi.appengineangulardemo.util.ServletUtils;
 @SuppressWarnings("serial")
 public class GetUserServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/json");
+		resp.setContentType("application/json");
 		resp.getWriter().println(ServletUtils.toJson(UserServiceFactory.getUserService().getCurrentUser()));
 	}
 }

@@ -9,9 +9,9 @@ app.config(function($routeProvider, $locationProvider) {
 			templateUrl: "templates/home.html",
 			controller: 'HomeController'
 		})
-		.when('/guestbook', {
-			templateUrl: "templates/guestbook.html",
-			controller: 'GuestbookController'
+		.when('/todolist', {
+			templateUrl: "templates/todolist.html",
+			controller: 'ToDoListController'
 		})
 		.otherwise({ redirectTo: '/'});
 });
@@ -36,17 +36,14 @@ app.controller('HeaderController', function($scope, $location, AuthService) {
 	};
 });
 
-app.controller('HomeController', function($scope, AuthService) {
+app.controller('HomeController', function($scope, $location, AuthService) {
 	AuthService.refresh();
 	
 	$scope.user = AuthService.getUser();
 	
-	if ($scope.user != null) {
-		$scope.name = $scope.user.email;
-	}
-	else {
-		$scope.name = "Guest";
-	}
+	$scope.loginPath = function() {
+		return "/Login?path=" + $location.path();
+	};
 	
 	$scope.$watch(function () { return AuthService.getUser(); }, function (newVal, oldVal) {
 		$scope.user = AuthService.getUser();
@@ -64,6 +61,58 @@ app.controller('HomeController', function($scope, AuthService) {
 	});
 });
 
-app.controller('GuestbookController', function($scope) {
+app.controller('ToDoListController', function($scope, $http) {
 	
+	$scope.items = {};
+	$scope.showComplete = false;
+	$scope.formDisabled = true;
+	
+	$http.get("/ToDoList")
+		.success(function (data, status, headers, config) {
+			$scope.items = eval(data);
+			$scope.formDisabled = false;
+	    })
+	    .error(function(error) {
+		 	console.log(error);
+		});
+	
+	$scope.put = function(item) {
+		$http.put("/ToDoList", item)
+			.error(function(error) {
+				console.log(error);
+			});
+	};
+	
+	$scope.showItem = function(item) {
+		return $scope.showComplete == true || item.done == false;
+	};
+	
+	$scope.incompleteCount = function() {
+		var count = 0;
+		angular.forEach($scope.items, function(item) {
+			if (!item.done)
+				++count;
+		});
+		return count;
+	};
+	
+	$scope.warningLevel = function() {
+		return $scope.incompleteCount() < 3 ? "label-success" : "label-warning";
+	};
+	
+	$scope.addNewItem = function(actionText) {
+		var found = false;
+		angular.forEach($scope.items, function(item) {
+			if (item.action.toUpperCase() === actionText.toUpperCase())
+				found = true;
+		});
+		if (found) {
+			alert(actionText + " already exists!");
+		}
+		else {
+			var item = {action: actionText, done: false};
+			$scope.items.push(item);
+			$scope.put(item);
+		}
+	};
 });
