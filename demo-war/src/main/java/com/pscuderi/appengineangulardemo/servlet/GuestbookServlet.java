@@ -12,6 +12,7 @@ import com.pscuderi.appengineangulardemo.util.ServletUtils;
 public class GuestbookServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		User user = ServletUtils.getUserAndRedirectIfNotAuthenticated(req, resp);
+		resp.setContentType("application/json");
 		
 		// TODO: return all posts, with timestamps
 		
@@ -20,6 +21,7 @@ public class GuestbookServlet extends HttpServlet {
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		User user = ServletUtils.getUserAndRedirectIfNotAuthenticated(req, resp);
+		resp.setContentType("application/json");
 		
 		// TODO: submit post, and respond with any new content (determine using a timestamp param)
 		
