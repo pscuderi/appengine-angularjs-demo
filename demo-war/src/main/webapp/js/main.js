@@ -65,10 +65,12 @@ app.controller('ToDoListController', function($scope, $http) {
 	
 	$scope.items = {};
 	$scope.showComplete = false;
+	$scope.formDisabled = true;
 	
 	$http.get("/ToDoList")
 		.success(function (data, status, headers, config) {
 			$scope.items = eval(data);
+			$scope.formDisabled = false;
 	    })
 	    .error(function(error) {
 		 	console.log(error);
