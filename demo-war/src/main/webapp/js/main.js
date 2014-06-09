@@ -101,18 +101,8 @@ app.controller('ToDoListController', function($scope, $http) {
 	};
 	
 	$scope.addNewItem = function(actionText) {
-		var found = false;
-		angular.forEach($scope.items, function(item) {
-			if (item.action.toUpperCase() === actionText.toUpperCase())
-				found = true;
-		});
-		if (found) {
-			alert(actionText + " already exists!");
-		}
-		else {
-			var item = {action: actionText, done: false};
-			$scope.items.push(item);
-			$scope.put(item);
-		}
+		var item = {action: actionText, done: false};
+		$scope.put(item);
+		$scope.items.push(item);
 	};
 });
