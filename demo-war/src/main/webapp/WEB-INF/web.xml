@@ -37,6 +37,24 @@
 		<url-pattern>/ToDoList</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>DeleteToDoItem</servlet-name>
+		<servlet-class>com.pscuderi.appengineangulardemo.servlet.DeleteToDoItemServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteToDoItem</servlet-name>
+		<url-pattern>/DeleteToDoItem</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Admin</servlet-name>
+		<servlet-class>com.pscuderi.appengineangulardemo.servlet.AdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Admin</servlet-name>
+		<url-pattern>/Admin</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

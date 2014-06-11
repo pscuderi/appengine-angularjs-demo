@@ -1,5 +1,6 @@
 package com.pscuderi.appengineangulardemo.model;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -12,11 +13,15 @@ public class AppUser {
 	
 	private String email;
 	
-	public AppUser() {}
+	public AppUser() { }
 	
 	public AppUser(String id, String email) {
 		this.id = id;
 		this.email = email;
+	}
+	
+	public Key<AppUser> getKey() {
+		return Key.create(AppUser.class, id);
 	}
 	
 	public String getId() {
