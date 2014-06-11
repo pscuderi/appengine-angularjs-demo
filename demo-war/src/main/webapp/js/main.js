@@ -70,8 +70,23 @@ app.controller('ToDoListController', function($scope, $http) {
 		 	console.log(error);
 		});
 	
-	$scope.put = function(item) {
+	$scope.update = function(item) {
 		$http.put("/ToDoList", item)
+			.error(function(error) {
+				console.log(error);
+			});
+	};
+	
+	$scope.del = function(item) {
+		$http.post("/DeleteToDoItem", item)
+			.success(function (data, status, headers, config) {
+			    for (var i = 0; i < $scope.items.length; i++) {
+			        if ($scope.items[i].action.toUpperCase() === item.action.toUpperCase()) {
+			        	$scope.items.splice(i, 1);
+			        	break;
+			        }
+			    };
+		    })
 			.error(function(error) {
 				console.log(error);
 			});
@@ -94,9 +109,25 @@ app.controller('ToDoListController', function($scope, $http) {
 		return $scope.incompleteCount() < 3 ? "label-success" : "label-warning";
 	};
 	
-	$scope.addNewItem = function(actionText) {
-		var item = {action: actionText, done: false};
-		$scope.put(item);
-		$scope.items.push(item);
+	$scope.addNewItem = function() {
+	    for (var i = 0; i < $scope.items.length; i++) {
+	        if ($scope.items[i].action.toUpperCase() === $scope.actionText.toUpperCase()) {
+	        	alert($scope.actionText + " already exists!");
+	        	return;
+	        }
+	    };
+		
+		$scope.formDisabled = true;
+		var item = {action: $scope.actionText, done: false};
+		$http.put("/ToDoList", item)
+			.success(function (data, status, headers, config) {
+				$scope.items.push(item);
+				$scope.actionText = "";
+				$scope.formDisabled = false;
+		    })
+			.error(function(error) {
+				console.log(error);
+				$scope.formDisabled = false;
+			});
 	};
 });
