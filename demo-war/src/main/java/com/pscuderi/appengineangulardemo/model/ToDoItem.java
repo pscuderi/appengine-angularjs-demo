@@ -2,6 +2,7 @@ package com.pscuderi.appengineangulardemo.model;
 
 import com.google.gson.annotations.Expose;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -11,7 +12,7 @@ import com.googlecode.objectify.annotation.Parent;
 @Entity
 public class ToDoItem {
 	@Parent
-	private Key<AppUser> ownerKey;
+	private Ref<AppUser> ownerRef;
 	
 	@Id
 	@Expose
@@ -23,7 +24,7 @@ public class ToDoItem {
 	public ToDoItem() { }
 	
 	public ToDoItem(AppUser owner, String action, boolean done) {
-		this.ownerKey = owner.getKey();
+		ownerRef = Ref.create(owner.getKey());
 		this.action = action;
 		this.done = done;
 	}
@@ -32,12 +33,12 @@ public class ToDoItem {
 		return Key.create(ToDoItem.class, action);
 	}
 	
-	public Key<AppUser> getOwnerKey() {
-		return ownerKey;
+	public AppUser getOwner() {
+		return ownerRef.get();
 	}
 	
 	public void setOwner(AppUser owner) {
-		this.ownerKey = owner.getKey();
+		this.ownerRef = Ref.create(owner.getKey());
 	}
 	
 	public String getAction() {

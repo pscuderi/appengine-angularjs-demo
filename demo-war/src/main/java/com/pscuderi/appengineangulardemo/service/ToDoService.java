@@ -2,7 +2,6 @@ package com.pscuderi.appengineangulardemo.service;
 
 import java.util.List;
 
-import com.googlecode.objectify.Objectify;
 import com.pscuderi.appengineangulardemo.model.AppUser;
 import com.pscuderi.appengineangulardemo.model.ToDoItem;
 
